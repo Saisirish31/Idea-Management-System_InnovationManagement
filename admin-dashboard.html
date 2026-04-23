@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Idea Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --admin-primary: #d72555;
+      --admin-secondary: #ff4d7d;
+    }
+
+    .site-header {
+      background: linear-gradient(135deg, #d72555 0%, #ff4d7d 100%);
+      color: white;
+    }
+
+    .logo {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .brand h1,
+    .brand p {
+      color: white;
+    }
+
+    .admin-badge {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+      margin-left: 12px;
+    }
+
+    .tab {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+
+    .tab.active {
+      background: white;
+      color: var(--admin-primary);
+      border-color: white;
+    }
+
+    .tab:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .user-avatar {
+      background: linear-gradient(135deg, white, #ffe3ec);
+      color: var(--admin-primary);
+      border-color: white;
+    }
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card-admin {
+      background: linear-gradient(135deg, #fff 0%, #fff3f6 100%);
+      border: 2px solid #ffcdd9;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(215, 37, 85, 0.1);
+    }
+
+    .stat-card-admin h3 {
+      font-size: 32px;
+      color: var(--admin-primary);
+      margin-bottom: 8px;
+    }
+
+    .stat-card-admin p {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .users-table th {
+      background: linear-gradient(135deg, #f8f9fb 0%, #fff3f6 100%);
+      padding: 12px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+      border-bottom: 2px solid #ffcdd9;
+    }
+
+    .users-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .users-table tr:hover {
+      background: #fcfcfd;
+    }
+
+    .user-email {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .user-date {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      margin: 0 4px;
+    }
+
+    .action-btn:hover {
+      border-color: var(--admin-primary);
+      color: var(--admin-primary);
+    }
+
+    .action-btn.danger:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+      background: #fef2f2;
+    }
+
+    .backup-section {
+      background: linear-gradient(135deg, #fff9e6 0%, #fff3f6 100%);
+      border: 2px solid #ffcdd9;
+      padding: 24px;
+      border-radius: 12px;
+      margin-top: 24px;
+    }
+
+    .backup-section h3 {
+      margin-bottom: 12px;
+      color: var(--admin-primary);
+    }
+
+    .backup-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .backup-btn {
+      background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .backup-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(215, 37, 85, 0.3);
+    }
+
+    .backup-btn.secondary {
+      background: white;
+      color: var(--admin-primary);
+      border: 2px solid #ffcdd9;
+    }
+
+    .backup-btn.secondary:hover {
+      background: #fff3f6;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    .empty-state h3 {
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .ideas-summary {
+      margin-top: 24px;
+    }
+
+    .idea-item {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .idea-item:hover {
+      border-color: #ffcdd9;
+      box-shadow: 0 4px 12px rgba(215, 37, 85, 0.08);
+    }
+
+    .idea-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 8px;
+    }
+
+    .idea-title {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .idea-creator {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .toast-message {
+      position: fixed;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 16px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: bottom 0.3s ease;
+      min-width: 300px;
+      text-align: center;
+    }
+
+    .toast-message.success {
+      background: #10b981;
+      color: white;
+    }
+
+    .toast-message.error {
+      background: #ef4444;
+      color: white;
+    }
+
+    .toast-message.show {
+      bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo">👑</div>
+      <div>
+        <h1>Admin Dashboard <span class="admin-badge">ADMINISTRATOR</span></h1>
+        <p>System Management</p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 20px; align-items: center;">
+      <nav class="nav">
+        <button id="tab-users" class="tab active">User Management</button>
+        <button id="tab-ideas" class="tab">All Ideas</button>
+        <button id="tab-backup" class="tab">Data Backup</button>
+      </nav>
+      <div class="user-profile">
+        <button id="user-menu-btn" class="user-avatar">
+          <span id="user-initials">👑</span>
+        </button>
+        <div id="user-dropdown" class="user-dropdown hidden">
+          <div class="user-info">
+            <div class="user-avatar-large">
+              <span>👑</span>
+            </div>
+            <div>
+              <div class="user-name">System Admin</div>
+              <div class="user-email">admin@ims.com</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a href="index.html" class="dropdown-item" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+            <span>🏠</span> Go to Main App
+          </a>
+          <button id="logout-btn" class="dropdown-item">
+            <span>🚪</span> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Statistics -->
+    <section class="panel">
+      <h2>System Overview</h2>
+      <div class="admin-stats">
+        <div class="stat-card-admin">
+          <h3 id="total-users">0</h3>
+          <p>Total Users</p>
+        </div>
+        <div class="stat-card-admin">
+          <h3 id="total-ideas">0</h3>
+          <p>Total Ideas</p>
+        </div>
+        <div class="stat-card-admin">
+          <h3 id="total-votes">0</h3>
+          <p>Total Votes</p>
+        </div>
+        <div class="stat-card-admin">
+          <h3 id="total-comments">0</h3>
+          <p>Total Comments</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Users Tab -->
+    <section id="users-section" class="panel">
+      <h2>Registered Users</h2>
+      <div id="users-container">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Registered</th>
+              <th>Ideas</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-table-body">
+            <!-- Users will be populated here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Ideas Tab -->
+    <section id="ideas-section" class="panel hidden">
+      <h2>All Ideas in System</h2>
+      <div id="ideas-container" class="ideas-summary">
+        <!-- Ideas will be populated here -->
+      </div>
+    </section>
+
+    <!-- Backup Tab -->
+    <section id="backup-section" class="panel hidden">
+      <h2>Data Backup & Export</h2>
+      
+      <div class="backup-section">
+        <h3>💾 Export Data</h3>
+        <p style="color: var(--muted); margin-bottom: 12px;">
+          Download complete system data including users, ideas, and all related information.
+        </p>
+        <div class="backup-buttons">
+          <button id="export-all-btn" class="backup-btn">
+            <span>📥</span> Export All Data
+          </button>
+          <button id="export-users-btn" class="backup-btn secondary">
+            <span>👥</span> Export Users Only
+          </button>
+          <button id="export-ideas-btn" class="backup-btn secondary">
+            <span>💡</span> Export Ideas Only
+          </button>
+        </div>
+      </div>
+
+      <div class="backup-section" style="margin-top: 20px;">
+        <h3>⚠️ Danger Zone</h3>
+        <p style="color: var(--muted); margin-bottom: 12px;">
+          These actions are permanent and cannot be undone.
+        </p>
+        <div class="backup-buttons">
+          <button id="delete-all-users-btn" class="backup-btn secondary" style="border-color: #ef4444; color: #ef4444;">
+            <span>🗑️</span> Delete All Users
+          </button>
+          <button id="reset-system-btn" class="backup-btn secondary" style="border-color: #ef4444; color: #ef4444;">
+            <span>🔄</span> Reset Entire System
+          </button>
+        </div>
+      </div>
+
+      <div class="backup-section" style="margin-top: 20px; background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border-color: #90caf9;">
+        <h3>📊 System Statistics</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px;">
+          <div style="background: white; padding: 12px; border-radius: 8px;">
+            <strong>Database Size:</strong>
+            <p id="db-size" style="color: var(--muted); font-size: 14px; margin-top: 4px;">Calculating...</p>
+          </div>
+          <div style="background: white; padding: 12px; border-radius: 8px;">
+            <strong>Last Backup:</strong>
+            <p id="last-backup" style="color: var(--muted); font-size: 14px; margin-top: 4px;">Never</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="admin-dashboard.js"></script>
+</body>
+</html>

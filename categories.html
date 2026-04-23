@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categories - Idea Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="professional.css" />
+</head>
+<body>
+  <aside class="nav-sidebar">
+    <div class="nav-brand">
+      <div class="nav-brand-logo">IMS</div>
+      <div class="nav-brand-title">Idea Management</div>
+      <div class="nav-brand-subtitle">Innovation Hub</div>
+    </div>
+    <div class="nav-menu" id="nav-menu"></div>
+    <div class="nav-footer">
+      <div class="user-profile">
+        <button id="user-menu-btn" class="user-avatar"><span id="user-initials">U</span></button>
+        <div id="user-dropdown" class="user-dropdown hidden">
+          <div class="user-info">
+            <div class="user-avatar-large"><span id="user-initials-large">U</span></div>
+            <div>
+              <div class="user-name" id="user-name-display">User</div>
+              <div class="user-email" id="user-email-display">user@example.com</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <button id="logout-btn" class="dropdown-item"><span>🚪</span> Logout</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="content-header">
+      <div class="content-header-top">
+        <div>
+          <h1 class="content-title">Browse by Category</h1>
+          <p class="content-subtitle">Explore ideas organized by category</p>
+        </div>
+        <button class="back-button" onclick="navManager.goBack()">
+          <span class="back-icon">←</span><span>Back</span>
+        </button>
+      </div>
+      <div id="breadcrumbs-container"></div>
+    </div>
+
+    <div class="content-body">
+      <div class="grid-2" style="margin-bottom: 32px;">
+        <div class="card" style="cursor: pointer; border: 2px solid transparent; transition: all 0.3s;" onclick="filterByCategory('Product')">
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #2551d7, #3f7dff); border-radius: 12px; display: grid; place-items: center; font-size: 32px;">📦</div>
+            <div style="flex: 1;">
+              <h3 style="font-size: 24px; margin-bottom: 8px;">Product</h3>
+              <p style="color: var(--muted); margin-bottom: 8px;">New products and features</p>
+              <div class="stat-value" style="color: var(--primary);" id="product-count">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="cursor: pointer; border: 2px solid transparent; transition: all 0.3s;" onclick="filterByCategory('Process')">
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #10b981, #34d399); border-radius: 12px; display: grid; place-items: center; font-size: 32px;">⚙️</div>
+            <div style="flex: 1;">
+              <h3 style="font-size: 24px; margin-bottom: 8px;">Process</h3>
+              <p style="color: var(--muted); margin-bottom: 8px;">Workflow improvements</p>
+              <div class="stat-value" style="color: var(--success);" id="process-count">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="cursor: pointer; border: 2px solid transparent; transition: all 0.3s;" onclick="filterByCategory('Marketing')">
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #f59e0b, #fbbf24); border-radius: 12px; display: grid; place-items: center; font-size: 32px;">📢</div>
+            <div style="flex: 1;">
+              <h3 style="font-size: 24px; margin-bottom: 8px;">Marketing</h3>
+              <p style="color: var(--muted); margin-bottom: 8px;">Campaigns and promotions</p>
+              <div class="stat-value" style="color: var(--warning);" id="marketing-count">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="cursor: pointer; border: 2px solid transparent; transition: all 0.3s;" onclick="filterByCategory('Social')">
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #ef4444, #f87171); border-radius: 12px; display: grid; place-items: center; font-size: 32px;">🌍</div>
+            <div style="flex: 1;">
+              <h3 style="font-size: 24px; margin-bottom: 8px;">Social</h3>
+              <p style="color: var(--muted); margin-bottom: 8px;">Community and social impact</p>
+              <div class="stat-value" style="color: var(--danger);" id="social-count">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="category-filter-section" style="display: none;">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span id="selected-category">All</span> Ideas</h2>
+            <button class="btn btn-secondary btn-sm" onclick="clearCategoryFilter()">Clear Filter</button>
+          </div>
+          <div class="card-body" id="filtered-ideas-list"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="navigation.js"></script>
+  <script>
+    const currentUser = JSON.parse(localStorage.getItem("imsCurrentUser"));
+    if (!currentUser) window.location.href = "login.html";
+
+    document.getElementById('nav-menu').innerHTML = renderNavigationMenu();
+    document.getElementById('breadcrumbs-container').innerHTML = renderBreadcrumbs([
+      { label: 'Dashboard', page: 'index' },
+      { label: 'Categories' }
+    ]);
+
+    let allIdeas = [];
+
+    async function fetchIdeas() {
+      try {
+        const response = await fetch("/api/ideas");
+        allIdeas = await response.json();
+        updateCategoryCounts();
+      } catch (error) {
+        console.error("Error fetching ideas:", error);
+      }
+    }
+
+    function updateCategoryCounts() {
+      const counts = { Product: 0, Process: 0, Marketing: 0, Social: 0 };
+      allIdeas.forEach(idea => {
+        if (counts.hasOwnProperty(idea.category)) counts[idea.category]++;
+      });
+      
+      document.getElementById('product-count').textContent = counts.Product + ' ideas';
+      document.getElementById('process-count').textContent = counts.Process + ' ideas';
+      document.getElementById('marketing-count').textContent = counts.Marketing + ' ideas';
+      document.getElementById('social-count').textContent = counts.Social + ' ideas';
+    }
+
+    function filterByCategory(category) {
+      const filtered = allIdeas.filter(i => i.category === category);
+      document.getElementById('selected-category').textContent = category;
+      document.getElementById('category-filter-section').style.display = 'block';
+      
+      const html = filtered.length === 0 
+        ? '<p style="color: var(--muted); text-align: center; padding: 40px;">No ideas in this category yet.</p>'
+        : filtered.map(idea => `
+            <div class="card" style="margin-bottom: 16px;">
+              <h4 style="margin-bottom: 8px;">${escapeHtml(idea.title)}</h4>
+              <p style="color: var(--muted); margin-bottom: 12px;">${escapeHtml(idea.description)}</p>
+              <div style="display: flex; gap: 8px;">
+                <span class="badge-pro">${idea.stage}</span>
+                <span class="badge-pro">⭐ ${idea.rating}/5</span>
+                <span class="badge-pro">👍 ${idea.votes || 0}</span>
+              </div>
+            </div>
+          `).join('');
+      
+      document.getElementById('filtered-ideas-list').innerHTML = html;
+      document.getElementById('category-filter-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function clearCategoryFilter() {
+      document.getElementById('category-filter-section').style.display = 'none';
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    fetchIdeas();
+  </script>
+</body>
+</html>

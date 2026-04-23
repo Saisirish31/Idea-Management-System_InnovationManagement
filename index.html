@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Idea Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="professional.css" />
+</head>
+<body>
+  <!-- Navigation Sidebar -->
+  <aside class="nav-sidebar">
+    <div class="nav-brand">
+      <div class="nav-brand-logo">IMS</div>
+      <div class="nav-brand-title">Idea Management</div>
+      <div class="nav-brand-subtitle">Innovation Hub</div>
+    </div>
+    <div class="nav-menu" id="nav-menu"></div>
+    <div class="nav-footer">
+      <div class="user-profile">
+        <button id="user-menu-btn" class="user-avatar" aria-label="User menu">
+          <span id="user-initials">U</span>
+        </button>
+        <div id="user-dropdown" class="user-dropdown hidden">
+          <div class="user-info">
+            <div class="user-avatar-large">
+              <span id="user-initials-large">U</span>
+            </div>
+            <div>
+              <div class="user-name" id="user-name-display">User</div>
+              <div class="user-email" id="user-email-display">user@example.com</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <button id="logout-btn" class="dropdown-item">
+            <span>🚪</span> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="content-header">
+      <div class="content-header-top">
+        <div>
+          <h1 class="content-title">Dashboard</h1>
+          <p class="content-subtitle">Manage and track all your innovation ideas</p>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button id="tab-top" class="btn btn-secondary btn-sm">🏆 Top 5 Ideas</button>
+          <button id="help-button" class="btn btn-secondary btn-sm">ℹ️ Help</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="content-body">
+    <section class="panel overview">
+      <div class="overview-header">
+        <div>
+          <h2>Innovation Overview</h2>
+          <p>Track performance across the innovation funnel.</p>
+        </div>
+        <div class="funnel-legend">
+          <span class="badge">Idea</span>
+          <span class="badge stage-badge">Screening</span>
+          <span class="badge">Prototype</span>
+          <span class="badge stage-badge">Implementation</span>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <p class="stat-label">Total Ideas</p>
+          <h3 id="stat-total" class="stat-value">0</h3>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Avg Rating</p>
+          <h3 id="stat-rating" class="stat-value">0.0</h3>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Avg Screening Score</p>
+          <h3 id="stat-score" class="stat-value">0.0</h3>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Total Votes</p>
+          <h3 id="stat-votes" class="stat-value">0</h3>
+        </div>
+      </div>
+      <div class="funnel-grid">
+        <div class="funnel-step" data-stage="Idea">
+          <div>
+            <h4>Idea</h4>
+            <p><span id="stage-idea">0</span> ideas</p>
+          </div>
+          <div class="funnel-bar"><span id="stage-idea-bar"></span></div>
+        </div>
+        <div class="funnel-step" data-stage="Screening">
+          <div>
+            <h4>Screening</h4>
+            <p><span id="stage-screening">0</span> ideas</p>
+          </div>
+          <div class="funnel-bar"><span id="stage-screening-bar"></span></div>
+        </div>
+        <div class="funnel-step" data-stage="Prototype">
+          <div>
+            <h4>Prototype</h4>
+            <p><span id="stage-prototype">0</span> ideas</p>
+          </div>
+          <div class="funnel-bar"><span id="stage-prototype-bar"></span></div>
+        </div>
+        <div class="funnel-step" data-stage="Implementation">
+          <div>
+            <h4>Implementation</h4>
+            <p><span id="stage-implementation">0</span> ideas</p>
+          </div>
+          <div class="funnel-bar"><span id="stage-implementation-bar"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel form-panel">
+      <h2>Submit a New Idea</h2>
+      <form id="idea-form">
+        <div class="grid">
+          <label>
+            Title
+            <input type="text" id="idea-title" placeholder="Enter idea title" />
+          </label>
+          <label>
+            Category
+            <select id="idea-category">
+              <option value="">Select category</option>
+              <option value="Product">Product</option>
+              <option value="Process">Process</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Social">Social</option>
+            </select>
+          </label>
+        </div>
+        <div class="grid">
+          <label>
+            Impact (1-5)
+            <select id="idea-impact">
+              <option value="">Select impact</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+          <label>
+            Feasibility (1-5)
+            <select id="idea-feasibility">
+              <option value="">Select feasibility</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          Description
+          <textarea id="idea-description" rows="4" placeholder="Describe your idea"></textarea>
+        </label>
+        <div class="grid">
+          <label>
+            Rating (1-5)
+            <select id="idea-rating">
+              <option value="">Select rating</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+          <label>
+            Funnel Stage
+            <select id="idea-stage">
+              <option value="Idea">Idea</option>
+              <option value="Screening">Screening</option>
+              <option value="Prototype">Prototype</option>
+              <option value="Implementation">Implementation</option>
+            </select>
+          </label>
+          <button type="submit" class="primary">Add Idea</button>
+        </div>
+        <p id="form-error" class="error"></p>
+      </form>
+    </section>
+
+    <section class="panel controls">
+      <div class="controls-row">
+        <label>
+          Search ideas
+          <input type="text" id="search-ideas" placeholder="Search by title or description" />
+        </label>
+        <label>
+          Filter by category
+          <select id="filter-category">
+            <option value="All">All</option>
+            <option value="Product">Product</option>
+            <option value="Process">Process</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Social">Social</option>
+          </select>
+        </label>
+        <label>
+          Filter by stage
+          <select id="filter-stage">
+            <option value="All">All</option>
+            <option value="Idea">Idea</option>
+            <option value="Screening">Screening</option>
+            <option value="Prototype">Prototype</option>
+            <option value="Implementation">Implementation</option>
+          </select>
+        </label>
+        <div class="controls-actions">
+          <label>
+            Sort by
+            <select id="sort-mode">
+              <option value="newest">Newest</option>
+              <option value="rating">Rating</option>
+              <option value="score">Screening Score</option>
+              <option value="votes">Votes</option>
+            </select>
+          </label>
+          <button id="sort-direction" type="button" class="ghost">Descending</button>
+          <button id="clear-filters" type="button" class="ghost">Clear Filters</button>
+          <button id="export-json" type="button" class="ghost">Export JSON</button>
+          <button id="reset-data" type="button" class="ghost">Reset Data</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h2>All Ideas</h2>
+        <span id="results-counter" class="badge" style="background: rgba(37, 81, 215, 0.12); color: #1f4bd1; padding: 6px 12px; font-size: 14px;">0 ideas</span>
+      </div>
+      <div id="ideas-list" class="card-grid"></div>
+    </section>
+
+    <section id="top-ideas" class="panel hidden">
+      <h2>Top 5 Innovative Ideas</h2>
+      <div id="top-ideas-list" class="card-grid"></div>
+    </section>
+  </main>
+
+  <!-- Modals remain the same -->
+  <div id="edit-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Edit Idea</h3>
+        <button id="close-modal" type="button" class="ghost">Close</button>
+      </div>
+      <form id="edit-form" class="modal-body">
+        <div class="grid">
+          <label>
+            Title
+            <input type="text" id="edit-title" />
+          </label>
+          <label>
+            Category
+            <select id="edit-category">
+              <option value="Product">Product</option>
+              <option value="Process">Process</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Social">Social</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          Description
+          <textarea id="edit-description" rows="4"></textarea>
+        </label>
+        <div class="grid">
+          <label>
+            Impact (1-5)
+            <select id="edit-impact">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+          <label>
+            Feasibility (1-5)
+            <select id="edit-feasibility">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+        </div>
+        <div class="grid">
+          <label>
+            Rating (1-5)
+            <select id="edit-rating">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+          <label>
+            Funnel Stage
+            <select id="edit-stage">
+              <option value="Idea">Idea</option>
+              <option value="Screening">Screening</option>
+              <option value="Prototype">Prototype</option>
+              <option value="Implementation">Implementation</option>
+            </select>
+          </label>
+        </div>
+        <p id="edit-error" class="error"></p>
+        <div class="modal-footer">
+          <button type="button" id="cancel-edit" class="ghost">Cancel</button>
+          <button type="submit" class="primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="help-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Help & Keyboard Shortcuts</h3>
+        <button id="close-help" type="button" class="ghost">Close</button>
+      </div>
+      <div class="modal-body">
+        <h4 style="margin-bottom: 10px;">✨ Features</h4>
+        <ul style="margin-bottom: 20px; line-height: 1.8;">
+          <li><strong>Add Ideas:</strong> Fill out the form and click "Add Idea"</li>
+          <li><strong>Edit Ideas:</strong> Click "Edit" button on any idea card</li>
+          <li><strong>Delete Ideas:</strong> Click "Delete" button (with confirmation)</li>
+          <li><strong>Vote:</strong> Use +/- buttons to upvote or downvote</li>
+          <li><strong>Comment:</strong> Add comments at the bottom of each idea card</li>
+          <li><strong>Search:</strong> Type in the search box to filter ideas</li>
+          <li><strong>Filter:</strong> Use category and stage dropdowns</li>
+          <li><strong>Sort:</strong> Choose sort criteria and direction</li>
+          <li><strong>Export:</strong> Download all data as JSON file</li>
+          <li><strong>Reset:</strong> Restore sample data</li>
+        </ul>
+        
+        <h4 style="margin-bottom: 10px;">⌨️ Keyboard Shortcuts</h4>
+        <ul style="line-height: 1.8;">
+          <li><strong>Escape:</strong> Close any open modal</li>
+          <li><strong>Ctrl/Cmd + K:</strong> Focus on search box</li>
+        </ul>
+        
+        <h4 style="margin-top: 20px; margin-bottom: 10px;">📊 Scoring System</h4>
+        <p style="color: var(--muted); line-height: 1.6;">
+          <strong>Screening Score</strong> = Impact + Feasibility (Max: 10 points)<br>
+          Higher scores indicate more promising ideas for implementation.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Built with HTML, CSS, JavaScript and LocalStorage</p>
+  </footer>
+
+  <button id="scroll-to-top" class="scroll-to-top hidden" aria-label="Scroll to top">↑</button>
+
+  <script src="navigation.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
