@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - Idea Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #f2f4f8;
+      --panel: #ffffff;
+      --ink: #1a1f2b;
+      --muted: #586174;
+      --primary: #2551d7;
+      --accent: #f4a42b;
+      --border: #e2e6ec;
+      --shadow: 0 14px 35px rgba(20, 32, 60, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #eef3ff 0%, #f9fafb 40%, #f2f4f8 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 450px;
+      background: var(--panel);
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      animation: fadeInUp 0.5s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #1b49d4, #3f7dff);
+      color: #fff;
+      border-radius: 16px;
+      display: inline-grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 24px;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: "Archivo", sans-serif;
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 15px;
+      background: #fbfcfe;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 81, 215, 0.1);
+    }
+
+    input.error {
+      border-color: #ef4444;
+      background: #fef2f2;
+    }
+
+    input.success {
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 13px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .success-indicator {
+      color: #10b981;
+      font-size: 13px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .success-indicator.show {
+      display: block;
+    }
+
+    .password-toggle {
+      position: relative;
+    }
+
+    .password-toggle input {
+      padding-right: 45px;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--muted);
+      padding: 4px;
+    }
+
+    .toggle-btn:hover {
+      color: var(--primary);
+    }
+
+    .password-strength {
+      margin-top: 8px;
+      display: none;
+    }
+
+    .password-strength.show {
+      display: block;
+    }
+
+    .strength-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .strength-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      width: 0;
+    }
+
+    .strength-fill.weak {
+      width: 33%;
+      background: #ef4444;
+    }
+
+    .strength-fill.medium {
+      width: 66%;
+      background: #f59e0b;
+    }
+
+    .strength-fill.strong {
+      width: 100%;
+      background: #10b981;
+    }
+
+    .strength-text {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .terms-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .terms-group input[type="checkbox"] {
+      width: auto;
+      cursor: pointer;
+      margin-top: 2px;
+    }
+
+    .terms-group label {
+      margin: 0;
+      font-weight: 500;
+      cursor: pointer;
+      line-height: 1.5;
+    }
+
+    .terms-group a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .terms-group a:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      width: 100%;
+      background: linear-gradient(135deg, #1f4bd1, #3c78ff);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      margin-bottom: 16px;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(31, 75, 209, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 24px 0;
+      position: relative;
+    }
+
+    .divider::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      background: var(--panel);
+      padding: 0 16px;
+      position: relative;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .login-link {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .auth-container {
+        padding: 30px 24px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="logo-section">
+      <div class="logo">IMS</div>
+      <h1>Create Account</h1>
+      <p class="subtitle">Join the innovation community today</p>
+    </div>
+
+    <form id="register-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your full name" autocomplete="name" required />
+        <div id="name-error" class="error-message"></div>
+        <div id="name-success" class="success-indicator">✓ Looks good!</div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email" autocomplete="email" required />
+        <div id="email-error" class="error-message"></div>
+        <div id="email-success" class="success-indicator">✓ Email is available!</div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-toggle">
+          <input type="password" id="password" placeholder="Create a strong password" autocomplete="new-password" required />
+          <button type="button" class="toggle-btn" id="toggle-password" aria-label="Toggle password visibility">👁️</button>
+        </div>
+        <div class="password-strength" id="password-strength">
+          <div class="strength-bar">
+            <div class="strength-fill" id="strength-fill"></div>
+          </div>
+          <div class="strength-text" id="strength-text"></div>
+        </div>
+        <div id="password-error" class="error-message"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <div class="password-toggle">
+          <input type="password" id="confirm-password" placeholder="Re-enter your password" autocomplete="new-password" required />
+          <button type="button" class="toggle-btn" id="toggle-confirm" aria-label="Toggle password visibility">👁️</button>
+        </div>
+        <div id="confirm-error" class="error-message"></div>
+        <div id="confirm-success" class="success-indicator">✓ Passwords match!</div>
+      </div>
+
+      <div class="terms-group">
+        <input type="checkbox" id="terms" required />
+        <label for="terms">
+          I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
+        </label>
+      </div>
+      <div id="terms-error" class="error-message"></div>
+
+      <button type="submit" class="btn" id="register-btn">Create Account</button>
+
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <div class="login-link">
+        Already have an account? <a href="login.html">Sign In</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const registerForm = document.getElementById("register-form");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirm-password");
+    const termsCheckbox = document.getElementById("terms");
+    
+    const togglePasswordBtn = document.getElementById("toggle-password");
+    const toggleConfirmBtn = document.getElementById("toggle-confirm");
+    
+    const nameError = document.getElementById("name-error");
+    const nameSuccess = document.getElementById("name-success");
+    const emailError = document.getElementById("email-error");
+    const emailSuccess = document.getElementById("email-success");
+    const passwordError = document.getElementById("password-error");
+    const confirmError = document.getElementById("confirm-error");
+    const confirmSuccess = document.getElementById("confirm-success");
+    const termsError = document.getElementById("terms-error");
+    
+    const passwordStrength = document.getElementById("password-strength");
+    const strengthFill = document.getElementById("strength-fill");
+    const strengthText = document.getElementById("strength-text");
+    
+    const registerBtn = document.getElementById("register-btn");
+
+    async function apiRequest(path, options = {}) {
+      const response = await fetch(path, {
+        headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+        ...options
+      });
+
+      let payload = {};
+      try {
+        payload = await response.json();
+      } catch (_error) {
+        payload = {};
+      }
+
+      if (!response.ok) {
+        throw new Error(payload.message || "Request failed");
+      }
+      return payload;
+    }
+
+    // Check if already logged in
+    const currentUser = localStorage.getItem("imsCurrentUser");
+    if (currentUser) {
+      window.location.href = "index.html";
+    }
+
+    // Toggle password visibility
+    togglePasswordBtn.addEventListener("click", () => {
+      const type = passwordInput.type === "password" ? "text" : "password";
+      passwordInput.type = type;
+      togglePasswordBtn.textContent = type === "password" ? "👁️" : "🙈";
+    });
+
+    toggleConfirmBtn.addEventListener("click", () => {
+      const type = confirmPasswordInput.type === "password" ? "text" : "password";
+      confirmPasswordInput.type = type;
+      toggleConfirmBtn.textContent = type === "password" ? "👁️" : "🙈";
+    });
+
+    // Name validation
+    nameInput.addEventListener("input", () => {
+      const name = nameInput.value.trim();
+      nameInput.classList.remove("error", "success");
+      nameError.classList.remove("show");
+      nameSuccess.classList.remove("show");
+
+      if (name.length >= 2) {
+        nameInput.classList.add("success");
+        nameSuccess.classList.add("show");
+      }
+    });
+
+    // Email validation
+    emailInput.addEventListener("blur", async () => {
+      const email = emailInput.value.trim();
+      emailInput.classList.remove("error", "success");
+      emailError.classList.remove("show");
+      emailSuccess.classList.remove("show");
+
+      if (!email) return;
+
+      if (!isValidEmail(email)) {
+        emailInput.classList.add("error");
+        emailError.textContent = "Please enter a valid email address";
+        emailError.classList.add("show");
+        return;
+      }
+
+      try {
+        const data = await apiRequest(`/api/users/exists?email=${encodeURIComponent(email)}`);
+        if (data.exists) {
+          emailInput.classList.add("error");
+          emailError.textContent = "This email is already registered";
+          emailError.classList.add("show");
+          return;
+        }
+        emailInput.classList.add("success");
+        emailSuccess.classList.add("show");
+      } catch (error) {
+        emailInput.classList.add("error");
+        emailError.textContent = error.message || "Unable to verify email";
+        emailError.classList.add("show");
+      }
+    });
+
+    // Password strength checker
+    passwordInput.addEventListener("input", () => {
+      const password = passwordInput.value;
+      passwordInput.classList.remove("error");
+      passwordError.classList.remove("show");
+
+      if (password.length === 0) {
+        passwordStrength.classList.remove("show");
+        return;
+      }
+
+      passwordStrength.classList.add("show");
+      const strength = calculatePasswordStrength(password);
+
+      strengthFill.className = "strength-fill " + strength.level;
+      strengthText.textContent = strength.text;
+
+      // Check confirm password match
+      if (confirmPasswordInput.value) {
+        checkPasswordMatch();
+      }
+    });
+
+    // Confirm password validation
+    confirmPasswordInput.addEventListener("input", checkPasswordMatch);
+
+    function checkPasswordMatch() {
+      const password = passwordInput.value;
+      const confirm = confirmPasswordInput.value;
+
+      confirmPasswordInput.classList.remove("error", "success");
+      confirmError.classList.remove("show");
+      confirmSuccess.classList.remove("show");
+
+      if (confirm.length === 0) return;
+
+      if (password !== confirm) {
+        confirmPasswordInput.classList.add("error");
+        confirmError.textContent = "Passwords do not match";
+        confirmError.classList.add("show");
+      } else {
+        confirmPasswordInput.classList.add("success");
+        confirmSuccess.classList.add("show");
+      }
+    }
+
+    // Form submission
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Clear all errors
+      nameInput.classList.remove("error");
+      emailInput.classList.remove("error");
+      passwordInput.classList.remove("error");
+      confirmPasswordInput.classList.remove("error");
+      nameError.classList.remove("show");
+      emailError.classList.remove("show");
+      passwordError.classList.remove("show");
+      confirmError.classList.remove("show");
+      termsError.classList.remove("show");
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+      const termsAccepted = termsCheckbox.checked;
+
+      let hasError = false;
+
+      // Validate name
+      if (!name || name.length < 2) {
+        nameInput.classList.add("error");
+        nameError.textContent = "Name must be at least 2 characters";
+        nameError.classList.add("show");
+        hasError = true;
+      }
+
+      // Validate email
+      if (!email) {
+        emailInput.classList.add("error");
+        emailError.textContent = "Email is required";
+        emailError.classList.add("show");
+        hasError = true;
+      } else if (!isValidEmail(email)) {
+        emailInput.classList.add("error");
+        emailError.textContent = "Please enter a valid email address";
+        emailError.classList.add("show");
+        hasError = true;
+      } else {
+        try {
+          const data = await apiRequest(`/api/users/exists?email=${encodeURIComponent(email)}`);
+          if (data.exists) {
+            emailInput.classList.add("error");
+            emailError.textContent = "This email is already registered";
+            emailError.classList.add("show");
+            hasError = true;
+          }
+        } catch (error) {
+          emailInput.classList.add("error");
+          emailError.textContent = error.message || "Unable to verify email";
+          emailError.classList.add("show");
+          hasError = true;
+        }
+      }
+
+      // Validate password
+      if (!password) {
+        passwordInput.classList.add("error");
+        passwordError.textContent = "Password is required";
+        passwordError.classList.add("show");
+        hasError = true;
+      } else if (password.length < 6) {
+        passwordInput.classList.add("error");
+        passwordError.textContent = "Password must be at least 6 characters";
+        passwordError.classList.add("show");
+        hasError = true;
+      }
+
+      // Validate confirm password
+      if (password !== confirmPassword) {
+        confirmPasswordInput.classList.add("error");
+        confirmError.textContent = "Passwords do not match";
+        confirmError.classList.add("show");
+        hasError = true;
+      }
+
+      // Validate terms
+      if (!termsAccepted) {
+        termsError.textContent = "You must accept the terms and conditions";
+        termsError.classList.add("show");
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      try {
+        registerBtn.disabled = true;
+        registerBtn.textContent = "Creating account...";
+
+        await apiRequest("/api/auth/register", {
+          method: "POST",
+          body: JSON.stringify({ name, email, password })
+        });
+
+        window.location.href = "login.html?registered=true";
+      } catch (error) {
+        registerBtn.disabled = false;
+        registerBtn.textContent = "Create Account";
+        emailInput.classList.add("error");
+        emailError.textContent = error.message || "Registration failed";
+        emailError.classList.add("show");
+      }
+    });
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function calculatePasswordStrength(password) {
+      let strength = 0;
+      
+      if (password.length >= 6) strength++;
+      if (password.length >= 10) strength++;
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+      if (/\d/.test(password)) strength++;
+      if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+      if (strength <= 2) {
+        return { level: "weak", text: "Weak password" };
+      } else if (strength <= 3) {
+        return { level: "medium", text: "Medium strength" };
+      } else {
+        return { level: "strong", text: "Strong password!" };
+      }
+    }
+  </script>
+</body>
+</html>
